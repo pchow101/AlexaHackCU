@@ -1,10 +1,5 @@
 # AlexaHackCU
 
-## Before you run the app
-
-pip install -r requirements.txt
-
-
 ## Information
 This skill for Alexa was written for the 2016 HackCU hackathon.
 The intent is to build a skill that allows one to access the
