@@ -1,0 +1,35 @@
+SLOT TYPE: LIST_OF_OPERATIONS
+integrate
+integrational
+integral
+derive
+derivation
+derivative
+add
+addition
+plus
+subtract
+subtraction
+minus
+divide
+division
+divided by
+multiply
+multiplication
+multiplied
+sine
+cosine
+tangent
+cotangent
+secant
+cosecant
+exponent
+power
+raised to the power of
+raise
+squared
+cubed
+square
+cube
+square root
+square root of

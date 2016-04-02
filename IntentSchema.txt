@@ -1,0 +1,68 @@
+{
+  "intents": [
+    {
+      "intent": "Math",
+      "slots": [
+        {
+          "name": "Operation",
+          "type": "LIST_OF_OPERATIONS"
+        },
+        {
+          "name": "GeneralInput",
+          "type": "STUFF_PEOPLE_SAY"
+        },
+        {
+          "name": "IntegralArgument",
+          "type": "INTEGRAL_ARGS"
+        },
+        {
+          "name": "LimitMin",
+          "type": "AMAZON.NUMBER"
+        },
+        {
+          "name": "LimitMax",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "General",
+      "slots": [
+        {
+          "name": "GeneralInput",
+          "type": "STUFF_PEOPLE_SAY"
+        }
+      ]
+    },
+    {
+      "intent": "SetDec",
+      "slots": [
+        {
+          "name": "Decimals",
+          "type": "AMAZON.NUMBER"
+        }
+      ]
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.NoIntent"
+    },
+    {
+      "intent": "AMAZON.RepeatIntent"
+    },
+    {
+      "intent": "AMAZON.StartOverIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.YesIntent"
+    }
+  ]
+}
