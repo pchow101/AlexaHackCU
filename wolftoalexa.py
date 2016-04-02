@@ -21,17 +21,21 @@ def querytoresult(query):
     if 'integrate' in query1 or 'differetiate' in query1:
         text = res.pods[0].text
     else:
-        test1=res.pods[1].text.split(".")
-        x=test1[1]
-        test1[1]=x[:4]
-        test=test1[0]+'.'+test1[1] 
-        text = res.pods[0].text+' equals '+test
-    #print text
+        try:
+            test1=res.pods[1].text.split(".")
+            x=test1[1]
+            test1[1]=x[:4]
+            test=test1[0]+'.'+test1[1]
+            text = res.pods[0].text+' equals '+test
+        except :
+            text = res.pods[1].text
+    print (text)
     res = mathtotext(text)
     return res
 
 
 if __name__ == "__main__":
-    query = "e^2"
+    query = "1+1"
+
     res = querytoresult(query)
-    print res
+    print (res)
