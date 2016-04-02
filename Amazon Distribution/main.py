@@ -316,6 +316,7 @@ def get_color_from_session(intent, session):
 	return build_response(session_attributes, build_speechlet_response(
 		intent['name'], speech_output, reprompt_text, should_end_session))
 
+
 def mathtotext(text):
     mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "upto", "sqrt": "square root" ,"~~": " approximately equal to "}
     uppercase = ['d[a-z]', '[a-z]']
@@ -338,7 +339,7 @@ def choose(query):
 
 def calculus(res):
     text = res.pods[0].text
-    print(text)
+    print text
     integral= ""
     if 'integral' in  text :
         text_array = text.split()
