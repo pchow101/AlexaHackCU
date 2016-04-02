@@ -8,7 +8,6 @@ http://amzn.to/1LGWsLG
 """
 
 from __future__ import print_function
-import wolframalpha
 
 def lambda_handler(event, context):
 	""" Route the incoming request based on type (LaunchRequest, IntentRequest,
@@ -68,11 +67,15 @@ def on_intent(intent_request, session):
 
 	# Dispatch to your skill's intent handlers
 	if intent_name == "Math":
-		return set_color_in_session(intent, session)
+		return math_input(intent, session)
+	elif intent_name == "General":
+		return general_input(intent, session)
+	elif intent_name == "SetDec":
+		return setDec(intent, session)
 	elif intent_name == "AMAZON.CancelIntent":
-		return end_session()
+		return end_session(session)
 	elif intent_name == "AMAZON.StopIntent":
-		return end_session()
+		return end_session(session)
 	elif intent_name == "AMAZON.HelpIntent":
 		return get_welcome_response()
 	else:
@@ -107,40 +110,93 @@ def get_welcome_response():
 		card_title, speech_output, reprompt_text, should_end_session))
 
 
-def end_session():
+def end_session(session):
 	should_end_session = True
+	speech_output = "Ending your Wolfram Alpha session."
+	reprompt_text = None
+	return build_response(session_attributes, build_speechlet_response(
+		card_title, speech_output, reprompt_text, should_end_session))
 		
-		
-def set_color_in_session(intent, session):
-	""" Sets the color in the session and prepares the speech to reply to the
-	user.
+
+def math_input(intent, session):
+	""" Does input that is math based
 	"""
 
 	card_title = intent['name']
-	session_attributes = {}
 	should_end_session = False
 
-	if 'Color' in intent['slots']:
-		favorite_color = intent['slots']['Color']['value']
-		session_attributes = create_favorite_color_attributes(favorite_color)
-		speech_output = "I now know your favorite color is " + \
-						favorite_color + \
-						". You can ask me your favorite color by saying, " \
-						"what's my favorite color?"
-		reprompt_text = "You can ask me your favorite color by saying, " \
-						"what's my favorite color?"
+	if 'Operation' in intent['slots'] and 'GeneralInput' in intent['slots'] and 'LimitMin' not in intent['slots'] and 'IntegralArgument' not in intent['slots']:
+		# Is some sort of covered mathematical operation
+		operation = intent['slots']['Operation']['value']
+		general = intent['slots']['GeneralInput']['value']
+		print(operation)
+		print(general)
+		speech_output = "Filler."
+		reprompt_text = "Filler."
+	elif 'Operation' in intent['slots'] and 'GeneralInput' in intent['slots'] and 'LimitMin' in intent['slots'] and 'IntegralArgument' not in intent['slots']:
+		# Is integral with numerical range with no defined argument of integration
+		operation = intent['slots']['Operation']['value']
+		general = intent['slots']['GeneralInput']['value']
+		limitMin = intent['slots']['LimitMin']['value']
+		limitMax = intent['slots']['LimitMax']['value']
+		print(operation)
+		print(general)
+		print(limitMin)
+		print(limitMax)
+		speech_output = "Filler."
+		reprompt_text = "Filler."
+	elif 'Operation' in intent['slots'] and 'GeneralInput' in intent['slots'] and 'LimitMin' not in intent['slots'] and 'IntegralArgument' in intent['slots']:
+		# Is integral or derivative with defined argument variable for itnegration or derivation
+		operation = intent['slots']['Operation']['value']
+		general = intent['slots']['GeneralInput']['value']
+		argument = intent['slots']['IntegralArgument']['value']
+		print(operation)
+		print(general)
+		speech_output = "Filler."
+		reprompt_text = "Filler."
+	elif 'Operation' in intent['slots'] and 'GeneralInput' in intent['slots'] and 'LimitMin' in intent['slots'] and 'IntegralArgument' in intent['slots']:
+		# Is integral with numerical range and defined argument of integration
+		operation = intent['slots']['Operation']['value']
+		general = intent['slots']['GeneralInput']['value']
+		argument = intent['slots']['IntegralArgument']['value']
+		limitMin = intent['slots']['LimitMin']['value']
+		limitMax = intent['slots']['LimitMax']['value']
+		print(operation)
+		print(general)
+		print(argument)
+		print(limitMin)
+		print(limitMax)
+		speech_output = "Filler."
+		reprompt_text = "Filler."
 	else:
-		speech_output = "I'm not sure what your favorite color is. " \
+		speech_output = "I didn't understand your query. " \
 						"Please try again."
-		reprompt_text = "I'm not sure what your favorite color is. " \
-						"You can tell me your favorite color by saying, " \
-						"my favorite color is red."
+		reprompt_text = "Say an input to send to Wolfram Alpha."
 	return build_response(session_attributes, build_speechlet_response(
 		card_title, speech_output, reprompt_text, should_end_session))
 
 
-def create_favorite_color_attributes(favorite_color):
-	return {"favoriteColor": favorite_color}
+def general_input(intent, session):
+	""" Does general input that Wolfram Alpha hopefully understands
+	This results from Alexa not understanding the words
+	"""
+	input = intent['slots']['GeneralInput']['value']
+	print(input)
+	speech_output = "Filler."
+	reprompt_text = "Filler."
+
+
+def setDec(intent, session):
+	""" Changes the session attribute 'decimal' to setnumber of decimal points
+	"""
+	decimalPts = intent['slots']['SecDec']['Decimals']['value']
+	session_attributes = create_decimal_attribute(decimalPts)
+	print(session_attributes)
+	speech_output = "I've changed your decimal settings. " \
+					"Say an input to send to Wolfram Alpha."
+	reprompt_text = "Say an input to send to Wolfram Alpha."
+	return build_response(session_attributes, build_speechlet_response(
+		card_title, speech_output, reprompt_text, should_end_session))
 
 
 def get_color_from_session(intent, session):
