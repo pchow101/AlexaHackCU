@@ -130,6 +130,8 @@ def math_input(intent, session):
 	limMinFlag = True
 	limMaxFlag = True
 	intArgFlag = True
+	algArgFlag = True
+	algNumFlag = True
 	
 	# Define session_attributes
 	try:
@@ -163,10 +165,20 @@ def math_input(intent, session):
 	except KeyError:
 		intArgFlag = False
 	
+	try:
+		intent['slots']['AlgebraArgument']['value']
+	except KeyError:
+		algArgFlag = False
+	
+	try:
+		intent['slots']['AlgebraNum']['value']
+	except KeyError:
+		algNumFlag = False
+	
 	card_title = intent['name']
 	should_end_session = False
 
-	if opFlag == True and genFlag == True and limMinFlag == False and intArgFlag == False:
+	if opFlag == True and genFlag == True and limMinFlag == False and intArgFlag == False and algArgFlag == False and algNumFlag == False:
 		# Is some sort of covered mathematical operation
 		operation = intent['slots']['Operation']['value']
 		general = intent['slots']['GeneralInput']['value']
@@ -174,17 +186,17 @@ def math_input(intent, session):
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
-	elif opFlag == True and genFlag == True and limMinFlag == True and intArgFlag == False:
+	elif opFlag == True and genFlag == True and limMinFlag == True and intArgFlag == False and algArgFlag == False and algNumFlag == False:
 		# Is integral with numerical range with no defined argument of integration
 		operation = intent['slots']['Operation']['value']
 		general = intent['slots']['GeneralInput']['value']
 		limitMin = intent['slots']['LimitMin']['value']
 		limitMax = intent['slots']['LimitMax']['value']
-		input = "integral(" + general + ")," + limitMin + "," + limitMax + ")"
+		input = "integrate(" + general + ")," + limitMin + "," + limitMax + ")"
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
-	elif opFlag == True and genFlag == True and limMinFlag == False and intArgFlag == True:
+	elif opFlag == True and genFlag == True and limMinFlag == False and intArgFlag == True and algArgFlag == False and algNumFlag == False:
 		# Is integral or derivative with defined argument variable for itnegration or derivation
 		operation = intent['slots']['Operation']['value']
 		general = intent['slots']['GeneralInput']['value']
@@ -193,22 +205,41 @@ def math_input(intent, session):
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
-	elif opFlag == True and genFlag == True and limMinFlag == True and intArgFlag == True:
+	elif opFlag == True and genFlag == True and limMinFlag == True and intArgFlag == True and algArgFlag == False and algNumFlag == False:
 		# Is integral with numerical range and defined argument of integration
 		operation = intent['slots']['Operation']['value']
 		general = intent['slots']['GeneralInput']['value']
 		argument = intent['slots']['IntegralArgument']['value']
 		limitMin = intent['slots']['LimitMin']['value']
 		limitMax = intent['slots']['LimitMax']['value']
-		input = "integral(" + general + ")," + argument + "," + limitMin + "," + limitMax + ")"
+		input = "integrate (" + general + "," + argument + "," + limitMin + "," + limitMax + ")"
+		speech = choose(input)
+		speech_output = speech
+		reprompt_text = "Say an input to send to Wolfram Alpha."
+	elif opFlag == False and genFlag == True and limMinFlag == False and intArgFlag == True and algArgFlag == True and algNumFlag == True:
+		general = intent['slots']['GeneralInput']['value']
+		argument = intent['slots']['AlgebralArgument']['value']
+		algNum = intent['slots']['AlgebraNum']['value']
+		input = "solve(" + general + " | " + argument + " = " + algNum
+		speech = choose(input)
+		speech_output = speech
+		reprompt_text = "Say an input to send to Wolfram Alpha."
+	elif opFlag == True and genFlag == True and limMinFlag == False and intArgFlag == True and algArgFlag == True and algNumFlag == True:
+		operation = intent['slots']['Operation']['value']
+		general = intent['slots']['GeneralInput']['value']
+		argument = intent['slots']['AlgebralArgument']['value']
+		algNum = intent['slots']['AlgebraNum']['value']
+		input = "solve(" + operation + general + " | " + argument + " = " + algNum
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
 	else:
-		print("Crash")
-		speech_output = "I didn't understand your query. " \
-					"Please try again."
+		input = "I didn't understand your query. " \
+				"Please try again."
+		speech_output = input
 		reprompt_text = "Say an input to send to Wolfram Alpha."
+	
+	print(input)
 	return build_response(session_attributes, build_speechlet_response(
 		card_title, speech_output, reprompt_text, should_end_session))
 
