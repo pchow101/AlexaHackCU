@@ -14,28 +14,30 @@ def mathtotext(text):
     return processed
 
 
-def querytoresult(query):
+def choose(query):
     client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
     res = client.query(query)
     query1=query.split()
-    if 'integrate' in query1 or 'differetiate' in query1:
-        text = res.pods[0].text
+    if 'integrate' in query1 or 'differentiate' in query1:
+        return calculus(res)
     else:
-        try:
-            test1=res.pods[1].text.split(".")
-            x=test1[1]
-            test1[1]=x[:4]
-            test=test1[0]+'.'+test1[1]
-            text = res.pods[0].text+' equals '+test
-        except :
-            text = res.pods[1].text
-    print (text)
+        return algebra(res)
+        
+
+def calculus(res):
+    text = res.pods[0].text
     res = mathtotext(text)
     return res
 
+def algebra(res):
+    query = res.pods[0].text
+    text= res.pods[1].text
+    queryres = mathtotext(query)
+    res = mathtotext(text)
+    return queryres + " equals " + res
 
 if __name__ == "__main__":
-    query = "1+1"
+    query = " two decimal digits e^2"
 
-    res = querytoresult(query)
+    res = choose(query)
     print (res)
