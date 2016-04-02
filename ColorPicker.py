@@ -9,7 +9,6 @@ http://amzn.to/1LGWsLG
 
 from __future__ import print_function
 
-
 def lambda_handler(event, context):
     """ Route the incoming request based on type (LaunchRequest, IntentRequest,
     etc.) The JSON body of the request is provided in the event parameter.
@@ -39,10 +38,8 @@ def lambda_handler(event, context):
 
 
 def on_session_started(session_started_request, session):
-    """ Called when the session starts """
-
-    print("on_session_started requestId=" + session_started_request['requestId']
-          + ", sessionId=" + session['sessionId'])
+	""" Called when the session starts """
+	print("on_session_started requestId=" + session_started_request['requestId'] + ", sessionId=" + session['sessionId'])
 
 
 def on_launch(launch_request, session):

@@ -41,6 +41,7 @@ def lambda_handler(event, context):
 def on_session_started(session_started_request, session):
 	""" Called when the session starts """
 
+	session_attributes = {}
 	print("on_session_started requestId=" + session_started_request['requestId']
 		  + ", sessionId=" + session['sessionId'])
 
@@ -121,56 +122,82 @@ def end_session(session):
 def math_input(intent, session):
 	""" Does input that is math based
 	"""
-
+	# Set flags for if statements
+	opFlag = True
+	genFlag = True
+	limMinFlag = True
+	limMaxFlag = True
+	intArgFlag = True
+	
+	# Define session_attributes
+	try:
+		session_attributes
+	except NameError:
+		session_attributes = {}
+	
+	# Set flags for if statements
+	try:
+		intent['slots']['Operation']['value']
+	except KeyError:
+		opFlag = False
+	
+	try:
+		intent['slots']['GeneralInput']['value']
+	except KeyError:
+		genFlag = False
+	
+	try:
+		intent['slots']['LimitMin']['value']
+	except KeyError:
+		limMinFlag = False
+	
+	try:
+		intent['slots']['LimitMax']['value']
+	except KeyError:
+		limMaxFlag = False
+	
+	try:
+		intent['slots']['IntegralArgument']['value']
+	except KeyError:
+		intArgFlag = False
+	
 	card_title = intent['name']
 	should_end_session = False
 
-	if 'Operation' in intent['slots'] and 'GeneralInput' in intent['slots'] and 'LimitMin' not in intent['slots'] and 'IntegralArgument' not in intent['slots']:
+	if opFlag == True and genFlag == True and limMinFlag == False and intArgFlag == False:
 		# Is some sort of covered mathematical operation
 		operation = intent['slots']['Operation']['value']
 		general = intent['slots']['GeneralInput']['value']
-		print(operation)
-		print(general)
-		speech_output = "Filler."
-		reprompt_text = "Filler."
-	elif 'Operation' in intent['slots'] and 'GeneralInput' in intent['slots'] and 'LimitMin' in intent['slots'] and 'IntegralArgument' not in intent['slots']:
+		speech_output = "Filler1."
+		reprompt_text = "Filler1."
+	elif opFlag == True and genFlag == True and limMinFlag == True and intArgFlag == False:
 		# Is integral with numerical range with no defined argument of integration
 		operation = intent['slots']['Operation']['value']
 		general = intent['slots']['GeneralInput']['value']
 		limitMin = intent['slots']['LimitMin']['value']
 		limitMax = intent['slots']['LimitMax']['value']
-		print(operation)
-		print(general)
-		print(limitMin)
-		print(limitMax)
-		speech_output = "Filler."
-		reprompt_text = "Filler."
-	elif 'Operation' in intent['slots'] and 'GeneralInput' in intent['slots'] and 'LimitMin' not in intent['slots'] and 'IntegralArgument' in intent['slots']:
+		speech_output = "Filler2."
+		reprompt_text = "Filler2."
+	elif opFlag == True and genFlag == True and limMinFlag == False and intArgFlag == True:
 		# Is integral or derivative with defined argument variable for itnegration or derivation
 		operation = intent['slots']['Operation']['value']
 		general = intent['slots']['GeneralInput']['value']
 		argument = intent['slots']['IntegralArgument']['value']
-		print(operation)
-		print(general)
-		speech_output = "Filler."
-		reprompt_text = "Filler."
-	elif 'Operation' in intent['slots'] and 'GeneralInput' in intent['slots'] and 'LimitMin' in intent['slots'] and 'IntegralArgument' in intent['slots']:
+		speech_output = "Filler3."
+		reprompt_text = "Filler3."
+	elif opFlag == True and genFlag == True and limMinFlag == True and intArgFlag == True:
 		# Is integral with numerical range and defined argument of integration
 		operation = intent['slots']['Operation']['value']
 		general = intent['slots']['GeneralInput']['value']
 		argument = intent['slots']['IntegralArgument']['value']
 		limitMin = intent['slots']['LimitMin']['value']
 		limitMax = intent['slots']['LimitMax']['value']
-		print(operation)
-		print(general)
-		print(argument)
-		print(limitMin)
-		print(limitMax)
-		speech_output = "Filler."
-		reprompt_text = "Filler."
+		speech_output = "Filler4."
+		reprompt_text = "Filler4."
 	else:
+		print("Crash")
 		speech_output = "I didn't understand your query. " \
-						"Please try again."
+					"Please try again."
 		reprompt_text = "Say an input to send to Wolfram Alpha."
 	return build_response(session_attributes, build_speechlet_response(
 		card_title, speech_output, reprompt_text, should_end_session))
@@ -180,23 +207,43 @@ def general_input(intent, session):
 	""" Does general input that Wolfram Alpha hopefully understands
 	This results from Alexa not understanding the words
 	"""
+	try:
+		session_attributes
+	except NameError:
+		session_attributes = {}
+	
+	should_end_session = False
+	card_title = intent['name']
+	
 	input = intent['slots']['GeneralInput']['value']
-	print(input)
-	speech_output = "Filler."
-	reprompt_text = "Filler."
+	speech_output = "FillerGen."
+	reprompt_text = "FillerGen."
+	return build_response(session_attributes, build_speechlet_response(
+		card_title, speech_output, reprompt_text, should_end_session))
 
 
 def setDec(intent, session):
 	""" Changes the session attribute 'decimal' to setnumber of decimal points
 	"""
-	decimalPts = intent['slots']['SecDec']['Decimals']['value']
+	try:
+		session_attributes
+	except NameError:
+		session_attributes = {}
+	
+	should_end_session = False
+	card_title = intent['name']
+	
+	decimalPts = intent['slots']['Decimals']['value']
 	session_attributes = create_decimal_attribute(decimalPts)
-	print(session_attributes)
 	speech_output = "I've changed your decimal settings. " \
 					"Say an input to send to Wolfram Alpha."
 	reprompt_text = "Say an input to send to Wolfram Alpha."
 	return build_response(session_attributes, build_speechlet_response(
 		card_title, speech_output, reprompt_text, should_end_session))
+
+
+def create_decimal_attribute(decimalPts):
+    return {"decimals": decimalPts}
 
 
 def get_color_from_session(intent, session):
