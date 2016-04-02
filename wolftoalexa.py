@@ -2,7 +2,6 @@ import wolframalpha
 import re
 
 
-client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
 
 
 def mathtotext(text):
@@ -16,9 +15,10 @@ def mathtotext(text):
 
 
 def querytoresult(query):
+	client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
     res = client.query(query)
     text = res.pods[0].text
-    print text
+    # print text
     res = mathtotext(text)
     return res
 
