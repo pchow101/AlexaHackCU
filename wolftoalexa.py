@@ -5,7 +5,7 @@ import re
 
 
 def mathtotext(text):
-    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "upto"}
+    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "upto", "sqrt": "square root"}
     uppercase = ['d[a-z]', '[a-z]']
     mathoppatterns = re.compile('|'.join(re.escape(key) for key in mathoperators.keys()))
     ucpatterns = re.compile(r'\b(' + '|'.join(uppercase) + r')\b')
@@ -37,7 +37,7 @@ def algebra(res):
     return queryres + " equals " + res
 
 if __name__ == "__main__":
-    query = " two decimal digits e^2"
+    query = " two decimal digits sqrt(2)"
 
     res = choose(query)
     print (res)
