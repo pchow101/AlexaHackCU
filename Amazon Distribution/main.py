@@ -216,20 +216,20 @@ def math_input(intent, session):
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
-	elif opFlag == False and genFlag == True and limMinFlag == False and intArgFlag == True and algArgFlag == True and algNumFlag == True:
+	elif opFlag == False and genFlag == True and limMinFlag == False and intArgFlag == False and algArgFlag == True and algNumFlag == True:
 		general = intent['slots']['GeneralInput']['value']
-		argument = intent['slots']['AlgebralArgument']['value']
+		argument = intent['slots']['AlgebraArgument']['value']
 		algNum = intent['slots']['AlgebraNum']['value']
-		input = "solve(" + general + " | " + argument + " = " + algNum
+		input = "solve " + general + " where " + argument + " = " + algNum
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
-	elif opFlag == True and genFlag == True and limMinFlag == False and intArgFlag == True and algArgFlag == True and algNumFlag == True:
+	elif opFlag == True and genFlag == True and limMinFlag == False and intArgFlag == False and algArgFlag == True and algNumFlag == True:
 		operation = intent['slots']['Operation']['value']
 		general = intent['slots']['GeneralInput']['value']
-		argument = intent['slots']['AlgebralArgument']['value']
+		argument = intent['slots']['AlgebraArgument']['value']
 		algNum = intent['slots']['AlgebraNum']['value']
-		input = "solve(" + operation + general + " | " + argument + " = " + algNum
+		input = "solve " + operation + " " + general + " where " + argument + " = " + algNum
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
@@ -239,7 +239,9 @@ def math_input(intent, session):
 		speech_output = input
 		reprompt_text = "Say an input to send to Wolfram Alpha."
 	
+	print("Math Input")
 	print(input)
+	print(speech)
 	return build_response(session_attributes, build_speechlet_response(
 		card_title, speech_output, reprompt_text, should_end_session))
 
@@ -260,6 +262,9 @@ def general_input(intent, session):
 	speech = choose(input)
 	speech_output = speech
 	reprompt_text = "Say an input to send to Wolfram Alpha."
+	
+	print("General Input")
+	print(input)
 	return build_response(session_attributes, build_speechlet_response(
 		card_title, speech_output, reprompt_text, should_end_session))
 
@@ -280,6 +285,9 @@ def setDec(intent, session):
 	speech_output = "I've changed your decimal settings. " \
 					"Say an input to send to Wolfram Alpha."
 	reprompt_text = "Say an input to send to Wolfram Alpha."
+	
+	print("Decimal Input")
+	print(input)	
 	return build_response(session_attributes, build_speechlet_response(
 		card_title, speech_output, reprompt_text, should_end_session))
 
@@ -330,7 +338,7 @@ def choose(query):
 
 def calculus(res):
     text = res.pods[0].text
-    print text
+    print(text)
     integral= ""
     if 'integral' in  text :
         text_array = text.split()
