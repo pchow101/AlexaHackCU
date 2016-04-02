@@ -5,13 +5,13 @@ import re
 
 
 def mathtotext(text):
-    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine"}
-    uppercase = ['d[a-z]+', '[a-z]']
+    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "upto"}
+    uppercase = ['d[a-z]', '[a-z]']
     mathoppatterns = re.compile('|'.join(re.escape(key) for key in mathoperators.keys()))
     ucpatterns = re.compile(r'\b(' + '|'.join(uppercase) + r')\b')
     processed = mathoppatterns.sub(lambda x: mathoperators[x.group()], text)
     processed = ucpatterns.sub(lambda x: x.group(0).upper(), processed)
-    return processed
+    return processed    
 
 
 def choose(query):
