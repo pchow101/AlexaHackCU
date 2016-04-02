@@ -6,7 +6,7 @@ client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
 
 
 def mathtotext(text):
-    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : ""}
+    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine"}
     uppercase = ['d[a-z]+', '[a-z]']
     mathoppatterns = re.compile('|'.join(re.escape(key) for key in mathoperators.keys()))
     ucpatterns = re.compile(r'\b(' + '|'.join(uppercase) + r')\b')
@@ -24,6 +24,6 @@ def querytoresult(query):
 
 
 if __name__ == "__main__":
-    query = "differentiate x^2"
+    query = "differentiate "
     res = querytoresult(query)
     print res
