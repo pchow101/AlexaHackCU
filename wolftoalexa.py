@@ -15,15 +15,23 @@ def mathtotext(text):
 
 
 def querytoresult(query):
-	client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
+    client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
     res = client.query(query)
-    text = res.pods[0].text
-    # print text
+    query1=query.split()
+    if 'integrate' in query1 or 'differetiate' in query1:
+        text = res.pods[0].text
+    else:
+        test1=res.pods[1].text.split(".")
+        x=test1[1]
+        test1[1]=x[:4]
+        test=test1[0]+'.'+test1[1] 
+        text = res.pods[0].text+' equals '+test
+    #print text
     res = mathtotext(text)
     return res
 
 
 if __name__ == "__main__":
-    query = "differentiate X(sin x)"
+    query = "e^2"
     res = querytoresult(query)
     print res
