@@ -24,6 +24,6 @@ def querytoresult(query):
 
 
 if __name__ == "__main__":
-    query = "differentiate "
+    query = "differentiate X(sin x)"
     res = querytoresult(query)
     print res
