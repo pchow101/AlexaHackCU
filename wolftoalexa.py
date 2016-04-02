@@ -6,7 +6,7 @@ client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
 
 
 def mathtotext(text):
-    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals" }
+    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : ""}
     uppercase = ['d[a-z]+', '[a-z]']
     mathoppatterns = re.compile('|'.join(re.escape(key) for key in mathoperators.keys()))
     ucpatterns = re.compile(r'\b(' + '|'.join(uppercase) + r')\b')
@@ -17,11 +17,13 @@ def mathtotext(text):
 
 def querytoresult(query):
     res = client.query(query)
-    res = mathtotext(res.pods[0].text)
+    text = res.pods[0].text
+    print text
+    res = mathtotext(text)
     return res
 
 
 if __name__ == "__main__":
-    query = "integrate x^2"
+    query = "differentiate x^2"
     res = querytoresult(query)
     print res
