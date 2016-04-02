@@ -309,7 +309,7 @@ def get_color_from_session(intent, session):
 		intent['name'], speech_output, reprompt_text, should_end_session))
 
 def mathtotext(text):
-    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "upto", "sqrt": "square root"}
+    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "upto", "sqrt": "square root" ,"~~": " approximately equal to "}
     uppercase = ['d[a-z]', '[a-z]']
     mathoppatterns = re.compile('|'.join(re.escape(key) for key in mathoperators.keys()))
     ucpatterns = re.compile(r'\b(' + '|'.join(uppercase) + r')\b')
@@ -330,6 +330,14 @@ def choose(query):
 
 def calculus(res):
     text = res.pods[0].text
+    print text
+    integral= ""
+    if 'integral' in  text :
+        text_array = text.split()
+        text_array[0] = text_array[0].replace('_', ' from ')
+        text_array[0] = text_array[0].replace('^', ' to ')
+        text = " ".join(text_array)
+        
     res = mathtotext(text)
     return res
 
