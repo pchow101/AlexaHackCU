@@ -1,0 +1,15 @@
+wolframalpha/__init__.py,sha256=N5O8QbTlTEU3R2sX0-RSjxrfkMnwbhQlI7wEzFK0eK4,2107
+wolframalpha/compat.py,sha256=MG9-xJg9uw9N2uv50UiDE6Q67YN2zz9LgN0Etakfz1I,350
+wolframalpha/pmxbot.py,sha256=2WiuzPbd5yOAWPCP8J8CftVKCKepU_0ZNKGxHA_gcsI,434
+wolframalpha/test_client.py,sha256=bxwS5oL5xox7rjEjLBENP5ZPXZ0L_uFpGH3qVDg2C5g,771
+wolframalpha-2.3.dist-info/DESCRIPTION.rst,sha256=wBAfM4-orpH0o6KxRjI_L8x5eMZW9XwkpduKDTvo064,1148
+wolframalpha-2.3.dist-info/METADATA,sha256=6OQB9wMlh_jscODPNApyvaVhlgouRELMf0Tca-LQqnQ,1650
+wolframalpha-2.3.dist-info/RECORD,,
+wolframalpha-2.3.dist-info/WHEEL,sha256=o2k-Qa-RMNIJmUdIc7KU6VWR_ErNRbWNlxDIpl7lm34,110
+wolframalpha-2.3.dist-info/entry_points.txt,sha256=eQR_fDm0USQowfNbt2ScznGRr8qdRy9xDH7OM_7IYzg,55
+wolframalpha-2.3.dist-info/metadata.json,sha256=4MpiHLTGu_W-_Kqltk4hsUoBogwgGSmuhrQBmv0d1dg,818
+wolframalpha-2.3.dist-info/top_level.txt,sha256=7dbQwL-1nMZmW8OUN9HThEKalSoeOguNF_pl4fjLjNA,13
+wolframalpha/compat.pyc,,
+wolframalpha/test_client.pyc,,
+wolframalpha/__init__.pyc,,
+wolframalpha/pmxbot.pyc,,
