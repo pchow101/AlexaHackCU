@@ -192,7 +192,7 @@ def math_input(intent, session):
 		general = intent['slots']['GeneralInput']['value'].lower()
 		limitMin = intent['slots']['LimitMin']['value'].lower()
 		limitMax = intent['slots']['LimitMax']['value'].lower()
-		input = "integrate(" + general + ")," + limitMin + "," + limitMax + ")"
+		input = "integrate (" + general + "," + limitMin + "," + limitMax + ")"
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
@@ -307,18 +307,19 @@ def mathtotext(text):
 
 
 def choose(query):
-    client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
-    res = client.query(query)
-    query1=query.split()
-    if 'integrate' in query1 or 'differentiate' in query1 or "integrates" in query1 or "derivative" in query1:
-        return calculus(res)
-    else:
-        return algebra(res)
+	client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
+	print(query)
+	res = client.query(query)
+	query1=query.split()
+	if 'integral' in query1 or 'integrate' in query1 or 'derive' in query1 or 'differentiate' in query1 or "integrates" in query1 or "derivatives" in query1 or "derivatives" in query1:
+		return calculus(res)
+	else:
+		return algebra(res)
         
 
 def calculus(res):
     text = res.pods[0].text
-    print text
+    print(text)
     integral= ""
     if 'integral' in  text :
         text_array = text.split()
