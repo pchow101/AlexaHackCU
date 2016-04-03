@@ -318,13 +318,17 @@ def choose(query):
 
 def calculus(res):
     text = res.pods[0].text
+    print text
     integral= ""
     if 'integral' in  text :
         text_array = text.split()
         text_array[0] = text_array[0].replace('_', ' from ')
         text_array[0] = text_array[0].replace('^', ' to ')
         text = " ".join(text_array)
-        
+
+    if 'd/d' in text:
+        pos = text.find('(')
+        text = "differentiation" +text[pos:]
     res = mathtotext(text)
     return res
 
