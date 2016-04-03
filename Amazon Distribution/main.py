@@ -296,7 +296,7 @@ def create_decimal_attribute(decimalPts):
 
 
 def mathtotext(text):
-    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "upto", "sqrt": "square root" ,"~~": " approximately equal to ", "cos": "cosine", "dtheta": "D theta", "dx": "D X"}
+    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "", "sqrt": "square root" ,"~~": " approximately equal to ", "cos": "cosine", "dtheta": "D theta", "dx": "D X"}
     uppercase = ['d[a-z]', '[a-z]']
     mathoppatterns = re.compile('|'.join(re.escape(key) for key in mathoperators.keys()))
     ucpatterns = re.compile(r'\b(' + '|'.join(uppercase) + r')\b')
