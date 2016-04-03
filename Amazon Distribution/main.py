@@ -2,7 +2,6 @@
 This sample demonstrates a simple skill built with the Amazon Alexa Skills Kit.
 The Intent Schema, Custom Slots, and Sample Utterances for this skill, as well
 as testing instructions are located at http://amzn.to/1LzFrj6
-
 For additional samples, visit the Alexa Skills Kit Getting Started guide at
 http://amzn.to/1LGWsLG
 """
@@ -87,7 +86,6 @@ def on_intent(intent_request, session):
 
 def on_session_ended(session_ended_request, session):
 	""" Called when the user ends the session.
-
 	Is not called when the skill returns should_end_session=true
 	"""
 	print("on_session_ended requestId=" + session_ended_request['requestId'] +
@@ -117,6 +115,8 @@ def end_session(session):
 	should_end_session = True
 	speech_output = "Ending your Wolfram Alpha session."
 	reprompt_text = None
+	session_attributes = {}
+	card_title = "Stop"
 	return build_response(session_attributes, build_speechlet_response(
 		card_title, speech_output, reprompt_text, should_end_session))
 		
@@ -182,7 +182,7 @@ def math_input(intent, session):
 		# Is some sort of covered mathematical operation
 		operation = intent['slots']['Operation']['value'].lower()
 		general = intent['slots']['GeneralInput']['value'].lower()
-		input = operation + general
+		input = operation + " " + general
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
@@ -201,7 +201,7 @@ def math_input(intent, session):
 		operation = intent['slots']['Operation']['value'].lower()
 		general = intent['slots']['GeneralInput']['value'].lower()
 		argument = intent['slots']['IntegralArgument']['value'].lower()
-		input = operation + general + "," + argument
+		input = operation + " " + general + "," + argument
 		speech = choose(input)
 		speech_output = speech
 		reprompt_text = "Say an input to send to Wolfram Alpha."
@@ -241,7 +241,6 @@ def math_input(intent, session):
 	
 	print("Math Input")
 	print(input)
-	print(speech)
 	return build_response(session_attributes, build_speechlet_response(
 		card_title, speech_output, reprompt_text, should_end_session))
 
@@ -297,7 +296,7 @@ def create_decimal_attribute(decimalPts):
 
 
 def mathtotext(text):
-    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "upto", "sqrt": "square root" ,"~~": " approximately equal to "}
+    mathoperators = {'+' : " plus " , '-' : " minus " , '*' : " times " , '/' : " over ", '^' : " raised to ", '=' : " equals", '(': " of " , ")" : "", "sin": "sine", "|": "upto", "sqrt": "square root" ,"~~": " approximately equal to ", "cos": "cosine", "dtheta": "D theta", "dx": "D X"}
     uppercase = ['d[a-z]', '[a-z]']
     mathoppatterns = re.compile('|'.join(re.escape(key) for key in mathoperators.keys()))
     ucpatterns = re.compile(r'\b(' + '|'.join(uppercase) + r')\b')
@@ -311,7 +310,7 @@ def choose(query):
 	print(query)
 	res = client.query(query)
 	query1=query.split()
-	if 'integral' in query1 or 'integrate' in query1 or 'derive' in query1 or 'differentiate' in query1 or "integrates" in query1 or "derivatives" in query1 or "derivatives" in query1:
+	if 'integral' in query1 or 'integrate' in query1 or 'derive' in query1 or 'differentiate' in query1 or "integrates" in query1 or "derivatives" in query1 or "derivative" in query1 or "differentiation" in query1 or "integration" in query1:
 		return calculus(res)
 	else:
 		return algebra(res)
