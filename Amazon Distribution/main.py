@@ -310,7 +310,7 @@ def choose(query):
     client = wolframalpha.Client("369TU4-JQAVJKXQ9Y")
     res = client.query(query)
     query1=query.split()
-    if 'integrate' in query1 or 'differentiate' in query1:
+    if 'integrate' in query1 or 'differentiate' in query1 or "integrates" in query1 or "derivative" in query1:
         return calculus(res)
     else:
         return algebra(res)
@@ -328,7 +328,7 @@ def calculus(res):
 
     if 'd/d' in text:
         pos = text.find('(')
-        text = "differentiation" +text[pos:]
+        text = "differentiation " +text[pos:]
     res = mathtotext(text)
     return res
 
